@@ -1,0 +1,13 @@
+name = "wedding-website"
+main = "index.html"
+build.command = ""
+build.output_dir = "."
+build.watch_dir = "."
+
+[[kv_namespaces]]
+binding = "WEDDING_USER_DATA"
+id = "" # 部署时将由Cloudflare自动生成
+preview_id = "" # 部署时将由Cloudflare自动生成
+
+compatibility_date = "2025-11-29"
+compatibility_flags = ["nodejs_compat"]
