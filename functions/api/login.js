@@ -17,9 +17,12 @@ export async function onRequestPost(context) {
     
     // 确定是用户名还是手机号
     let username;
+    console.log('Login attempt for:', identifier);
+    
     if (identifier.match(/^1[3-9]\d{9}$/)) {
       // 手机号登录
       username = await env.WEDDING_USER_DATA.get(`phone:${identifier}`);
+      console.log('Phone login - found username:', username);
       if (!username) {
         return new Response(JSON.stringify({ success: false, message: '手机号未注册' }), {
           headers: { 'Content-Type': 'application/json' },
@@ -29,12 +32,15 @@ export async function onRequestPost(context) {
     } else {
       // 用户名登录
       username = identifier;
+      console.log('Username login - using username:', username);
     }
     
     // 获取用户数据
     const userDataStr = await env.WEDDING_USER_DATA.get(`user:${username}`);
+    console.log('User data found:', !!userDataStr);
+    
     if (!userDataStr) {
-      return new Response(JSON.stringify({ success: false, message: '用户名不存在' }), {
+      return new Response(JSON.stringify({ success: false, message: `用户名 ${username} 不存在` }), {
         headers: { 'Content-Type': 'application/json' },
         status: 401
       });
